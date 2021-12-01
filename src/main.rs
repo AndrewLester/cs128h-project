@@ -20,10 +20,17 @@ async fn index() -> Option<NamedFile> {
 #[post("/mapreduce", data = "<data>")]
 async fn mapreduce(data: Data<'_>) -> Result<&'static str, Debug<std::io::Error>> {
     let to_reduce = data.open((1 as i64).mebibytes()).into_string().await?;
+    // println!("{:#?}", to_reduce);
     let mut to_reduce = to_reduce.value;
-    let to_reduce = splice_form_boundary(&mut to_reduce);
+    let delim = match to_reduce.contains("Content-Type: text/csv") {
+        true => "\r",
+        false => " "
+    };
 
-    let results = get_graph_points(map_reduce(to_reduce));
+    let to_reduce = splice_form_boundary(&mut to_reduce);
+    // println!("{:#?}", to_reduce);
+
+    let results = get_graph_points(map_reduce(to_reduce, delim));
 
     println!("{:#?}", results);
 
