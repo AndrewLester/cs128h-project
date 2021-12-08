@@ -35,7 +35,7 @@ pub fn create_bar_graph(title: &str, x_axis_title: &str, y_axis_title: &str, poi
     let y_domain = (0..100).map(|x| x as f32).collect();
     let (chart, x, y) = create_base_chart(title, x_domain, y_domain);
 
-    let data = points.into_iter().map(|(x1, y1)| (x1.to_string(), y1)).collect();
+    let data = points.into_iter().map(|(x1, y1)| (x1.to_string(), y1 / 100 as f32)).collect();
 
     println!("{:?}", &data);
 
