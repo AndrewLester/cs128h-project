@@ -31,7 +31,11 @@ fn create_base_chart(title: &str, x_domain: Vec<String>, y_domain: Vec<f32>) -> 
 }
 
 pub fn create_bar_graph(title: &str, x_axis_title: &str, y_axis_title: &str, points: Vec<(f32, f32)>) -> String {
-    let x_domain = (0..30).map(|x| x as f64).map(|num| num.to_string()).collect();
+    let x_domain = (0..30).map(|x| x as f64).map(|num| {
+        let mut str = num.to_string();
+        str.truncate(4);
+        str
+    }).collect();
     let y_domain = (0..100).map(|x| x as f32).collect();
     let (chart, x, y) = create_base_chart(title, x_domain, y_domain);
 
