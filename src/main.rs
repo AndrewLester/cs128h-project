@@ -36,8 +36,8 @@ async fn mapreduce(data: Data<'_>) -> Result<String, Debug<std::io::Error>> {
 
     let svg = create_bar_graph(
         "Relative Frequency of Words by Word Length",
-        "percent occurence of word length",
         "word length",
+        "percent occurence of word length",
         results
     );
 
