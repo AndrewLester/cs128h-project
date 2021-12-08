@@ -110,11 +110,11 @@ for (const form of forms) {
 
         const formData = new FormData();
         formData.append('file', form.firstElementChild.files[0]);
-        const text = await fetch('/mapreduce', {
+        const svg = await fetch('/mapreduce', {
             method: 'POST',
             body: formData,
         }).then((res) => res.text());
-        console.log(text);
+        form.innerHTML += svg;
     });
 }
 </script>

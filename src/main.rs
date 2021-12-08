@@ -10,6 +10,7 @@ use rocket::data::{Data, ToByteUnit};
 use rocket::response::Debug;
 use algorithms::map_reduce::{map_reduce, get_graph_points};
 use form::splice_form_boundary;
+use graphing::create_bar_graph;
 
 #[get("/")]
 async fn index() -> Option<NamedFile> {
@@ -19,7 +20,7 @@ async fn index() -> Option<NamedFile> {
 }
 
 #[post("/mapreduce", data = "<data>")]
-async fn mapreduce(data: Data<'_>) -> Result<&'static str, Debug<std::io::Error>> {
+async fn mapreduce(data: Data<'_>) -> Result<String, Debug<std::io::Error>> {
     let to_reduce = data.open((1 as i64).mebibytes()).into_string().await?;
     // println!("{:#?}", to_reduce);
     let mut to_reduce = to_reduce.value;
@@ -33,8 +34,14 @@ async fn mapreduce(data: Data<'_>) -> Result<&'static str, Debug<std::io::Error>
 
     let results = get_graph_points(map_reduce(to_reduce, delim));
 
+    let svg = create_bar_graph(
+        "Relative Frequency of Words by Word Length",
+        "percent occurence of word length",
+        "word length",
+        results
+    );
 
-    Ok("Data set successfully uploaded")
+    Ok(svg)
 }
 
 #[launch]
