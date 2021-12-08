@@ -3,17 +3,19 @@ mod map;
 mod mappers;
 
 use std::{collections::HashMap, fs, time::{Duration, Instant}};
+use regex::{Regex, Split};
 
 use mappers::word_length_mapper;
 use map::multi_threaded_mapper_generic;
 use reduce::thread_reducer;
 
-pub fn map_reduce(text: &str, delim: &str) -> HashMap<usize, usize> {
+pub fn map_reduce(text: &str) -> HashMap<usize, usize> {
     let start: Instant = Instant::now();
     let cleaned_contents: &str = text;
 
-    let words: Vec<String> = cleaned_contents.split(delim)
-        .into_iter()
+    let regex = Regex::new(r"[^\w\d_-]+").unwrap();
+    
+    let words: Vec<String> = regex.split(cleaned_contents)
         .map(|s: &str| s.to_owned())
         .collect();
 

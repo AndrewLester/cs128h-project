@@ -1,5 +1,4 @@
 #[macro_use] extern crate rocket;
-
 mod algorithms;
 mod graphing;
 mod form;
@@ -21,18 +20,13 @@ async fn index() -> Option<NamedFile> {
 
 #[post("/mapreduce", data = "<data>")]
 async fn mapreduce(data: Data<'_>) -> Result<String, Debug<std::io::Error>> {
-    let to_reduce = data.open((1 as i64).mebibytes()).into_string().await?;
+    let to_reduce = data.open((100 as i64).mebibytes()).into_string().await?;
     // println!("{:#?}", to_reduce);
     let mut to_reduce = to_reduce.value;
-    let delim = match to_reduce.contains("Content-Type: text/csv") {
-        true => "\r",
-        false => " "
-    };
-
     let to_reduce = splice_form_boundary(&mut to_reduce);
     // println!("{:#?}", to_reduce);
 
-    let results = get_graph_points(map_reduce(to_reduce, delim));
+    let results = get_graph_points(map_reduce(to_reduce));
 
     let svg = create_bar_graph(
         "Relative Frequency of Words by Word Length",

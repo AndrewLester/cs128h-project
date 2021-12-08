@@ -9,6 +9,7 @@ edition = "2018"
 rocket = "0.5.0-rc.1"
 charts = "0.3.0"
 svg="0.7.1"
+regex = "1"
 
 
 [dependencies.rocket_contrib]

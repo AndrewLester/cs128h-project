@@ -41,3 +41,4 @@ pub fn word_length_mapper(words: &Vec<String>) -> HashMap<usize, usize> {
 
     map
 }
+
