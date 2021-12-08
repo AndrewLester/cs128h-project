@@ -1,6 +1,7 @@
 #[macro_use] extern crate rocket;
 
 mod algorithms;
+mod graphing;
 mod form;
 
 use std::path::Path; 
@@ -32,7 +33,6 @@ async fn mapreduce(data: Data<'_>) -> Result<&'static str, Debug<std::io::Error>
 
     let results = get_graph_points(map_reduce(to_reduce, delim));
 
-    println!("{:#?}", results);
 
     Ok("Data set successfully uploaded")
 }
