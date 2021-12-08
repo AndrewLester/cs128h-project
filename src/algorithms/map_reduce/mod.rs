@@ -4,8 +4,6 @@ mod mappers;
 
 use std::{collections::HashMap, fs, time::{Duration, Instant}};
 
-use textplots::{Chart, Shape, Plot};
-
 use mappers::word_length_mapper;
 use map::multi_threaded_mapper_generic;
 use reduce::thread_reducer;
